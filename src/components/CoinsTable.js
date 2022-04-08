@@ -149,7 +149,11 @@ const CoinsTable = () => {
                         </TableCell>
                         <TableCell>
                           {symbol}
-                          {numberWithCommas(row.current_price.toFixed(2))}
+                          {symbol === 'Rs'
+                            ? numberWithCommas(
+                                (row.current_price * 1.61).toFixed(2)
+                              )
+                            : numberWithCommas(row.current_price.toFixed(2))}
                         </TableCell>
                         <TableCell
                           style={{
@@ -162,9 +166,13 @@ const CoinsTable = () => {
                         </TableCell>
                         <TableCell>
                           {symbol}{' '}
-                          {numberWithCommas(
-                            row.market_cap.toString().slice(0, -6)
-                          )}
+                          {symbol === 'Rs'
+                            ? numberWithCommas(
+                                (row.market_cap * 1.61).toString().slice(0, -6)
+                              )
+                            : numberWithCommas(
+                                row.market_cap.toString().slice(0, -6)
+                              )}
                           M
                         </TableCell>
                       </TableRow>

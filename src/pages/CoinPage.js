@@ -21,7 +21,6 @@ const CoinPage = () => {
     fetchCoin()
   }, [])
 
-  console.log(coin)
   const useStyles = makeStyles((theme) => ({
     container: {
       display: 'flex',
@@ -76,6 +75,7 @@ const CoinPage = () => {
   const classes = useStyles()
 
   if (!coin) return <LinearProgress style={{ backgroundColor: 'gold' }} />
+  console.log(coin)
 
   return (
     <div className={classes.container}>
@@ -90,7 +90,7 @@ const CoinPage = () => {
           {coin?.name}
         </Typography>
         <Typography variant='subtitle1' className={classes.description}>
-          {parse(`${coin?.description.en.split('.')[0]}`)}
+          {parse(`${coin.description.en}`)}
         </Typography>
         <div className={classes.marketData}>
           <span style={{ display: 'flex' }}>
@@ -120,9 +120,18 @@ const CoinPage = () => {
               }}
             >
               {symbol}{' '}
-              {numberWithCommas(
-                coin?.market_data.current_price[currency.toLowerCase()]
-              )}
+              {symbol === 'Rs'
+                ? numberWithCommas(
+                    (
+                      coin.market_data.current_price[currency.toLowerCase()] *
+                      1.61
+                    ).toFixed(2)
+                  )
+                : numberWithCommas(
+                    coin.market_data.current_price[
+                      currency.toLowerCase()
+                    ].toFixed(2)
+                  )}
             </Typography>
           </span>
           <span style={{ display: 'flex' }}>
@@ -137,11 +146,20 @@ const CoinPage = () => {
               }}
             >
               {symbol}{' '}
-              {numberWithCommas(
-                coin?.market_data.market_cap[currency.toLowerCase()]
-                  .toString()
-                  .slice(0, -6)
-              )}
+              {symbol === 'Rs'
+                ? numberWithCommas(
+                    (
+                      coin?.market_data.market_cap[currency.toLowerCase()] *
+                      1.61
+                    )
+                      .toString()
+                      .slice(0, -6)
+                  )
+                : numberWithCommas(
+                    coin?.market_data.market_cap[currency.toLowerCase()]
+                      .toString()
+                      .slice(0, -6)
+                  )}
               M
             </Typography>
           </span>
