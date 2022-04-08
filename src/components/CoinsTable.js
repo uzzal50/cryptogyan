@@ -10,40 +10,25 @@ import {
   TableRow,
   TableCell,
   TableBody,
-} from '@material-ui/core'
-import {
   Container,
   makeStyles,
   Typography,
   TextField,
   ThemeProvider,
-  createTheme,
 } from '@material-ui/core'
 import { useNavigate } from 'react-router-dom'
 import { Pagination } from '@mui/material'
-
-export function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-}
+import { darkTheme, numberWithCommas } from '../utils'
 
 const CoinsTable = () => {
   const [coins, setCoins] = useState([])
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
-  const { currency } = useCryptoContext()
+
+  const { currency, symbol } = useCryptoContext()
   const navigate = useNavigate()
 
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: '#fff',
-      },
-      type: 'dark',
-    },
-  })
-
-  const { symbol } = useCryptoContext()
   const useStyles = makeStyles({
     row: {
       backgroundColor: '#16171a',
@@ -55,21 +40,27 @@ const CoinsTable = () => {
     },
     pagination: {
       '& .MuiPaginationItem-root': {
+        color: '#fff',
+      },
+      '& .Mui-selected': {
         color: 'gold',
+        border: '1px solid',
       },
     },
   })
   const classes = useStyles()
+
   const fetchCoins = async () => {
     setLoading(true)
     const { data } = await axios.get(CoinList(currency))
     setCoins(data)
     setLoading(false)
   }
+
   useEffect(() => {
     fetchCoins()
   }, [currency])
-  console.log(coins)
+
   const handleSearch = () => {
     return coins.filter((coin) => {
       return (
@@ -99,19 +90,21 @@ const CoinsTable = () => {
           ) : (
             <Table>
               <TableHead style={{ backgroundColor: '#EEBC1D' }}>
-                {['Coin', 'Price', '24h Change', 'Market Cap'].map((head) => (
-                  <TableCell
-                    style={{
-                      color: 'black',
-                      fontWeight: '700',
-                      fontFamily: 'Montserrat',
-                    }}
-                    key={head}
-                    // align={head === 'Coin' ? '' : 'right'}
-                  >
-                    {head}
-                  </TableCell>
-                ))}
+                <TableRow>
+                  {['Coin', 'Price', '24h Change', 'Market Cap'].map((head) => (
+                    <TableCell
+                      style={{
+                        color: 'black',
+                        fontWeight: '700',
+                        fontFamily: 'Montserrat',
+                      }}
+                      key={head}
+                      // align={head === 'Coin' ? '' : 'right'}
+                    >
+                      {head}
+                    </TableCell>
+                  ))}
+                </TableRow>
               </TableHead>
               <TableBody>
                 {handleSearch()
@@ -153,9 +146,9 @@ const CoinsTable = () => {
                               {row.name}
                             </span>
                           </div>
-                        </TableCell>{' '}
+                        </TableCell>
                         <TableCell>
-                          {symbol}{' '}
+                          {symbol}
                           {numberWithCommas(row.current_price.toFixed(2))}
                         </TableCell>
                         <TableCell
@@ -182,13 +175,14 @@ const CoinsTable = () => {
           )}
         </TableContainer>
         <Pagination
-          count={(handleSearch()?.length / 10).toFixed(0)}
+          count={Number((handleSearch().length / 10).toFixed(0))}
           style={{
             padding: 20,
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
           }}
+          variant='outlined'
           classes={{ ul: classes.pagination }}
           onChange={(_, value) => {
             setPage(value)
