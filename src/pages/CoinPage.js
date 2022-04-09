@@ -76,7 +76,7 @@ const CoinPage = () => {
   const classes = useStyles()
 
   if (!coin) return <LinearProgress style={{ backgroundColor: 'gold' }} />
-  console.log('rendere info')
+
   return (
     <div className={classes.container}>
       <div className={classes.sidebar}>
@@ -95,7 +95,7 @@ const CoinPage = () => {
         </Typography>
         <div className={classes.marketData}>
           <span style={{ display: 'flex' }}>
-            <Typography variant='h5' className={classes.heading}>
+            <Typography variant='h6' className={classes.heading}>
               Rank:
             </Typography>
             &nbsp; &nbsp;
@@ -110,7 +110,7 @@ const CoinPage = () => {
           </span>
 
           <span style={{ display: 'flex' }}>
-            <Typography variant='h5' className={classes.heading}>
+            <Typography variant='h6' className={classes.heading}>
               Current Price:
             </Typography>
             &nbsp; &nbsp;
@@ -171,4 +171,4 @@ const CoinPage = () => {
   )
 }
 
-export default React.memo(CoinPage)
+export default CoinPage

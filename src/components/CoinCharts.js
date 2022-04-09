@@ -30,7 +30,6 @@ const CoinCharts = ({ coin }) => {
     },
   }))
 
-  console.log('charts rendered')
   const classes = useStyles()
   const { currency } = useCryptoContext()
   const [historic, setHistoric] = useState()

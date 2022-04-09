@@ -91,8 +91,8 @@ const Carousel = () => {
         disableDotsControls
         disableButtonsControls
         responsive={responsive}
-        autoPlay
         items={items}
+        autoPlay
       />
     </div>
   )

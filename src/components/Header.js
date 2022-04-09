@@ -2,7 +2,6 @@ import React from 'react'
 import {
   AppBar,
   Container,
-  createTheme,
   MenuItem,
   Select,
   ThemeProvider,
@@ -12,6 +11,8 @@ import {
 import { makeStyles } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { useCryptoContext } from '../CryptoContext'
+import { darkTheme } from '../utils/index'
+import LoginModal from './LoginModal'
 
 const Header = () => {
   const useStyles = makeStyles({
@@ -22,16 +23,15 @@ const Header = () => {
       fontWeight: 'bold',
       cursor: 'pointer',
     },
-  })
-
-  const darkTheme = createTheme({
-    palette: {
-      type: 'dark',
-      primary: {
-        main: '#fff',
+    btn: {
+      border: '1px solid gold',
+      '&:hover': {
+        background: 'gold',
+        color: '#000',
       },
     },
   })
+
   const classes = useStyles()
 
   const { currency, symbol, setCurrency } = useCryptoContext()
@@ -48,19 +48,26 @@ const Header = () => {
                 </Typography>
               </Link>
             </div>
+
             <Select
+              size='medium'
               variant='outlined'
+              labelId='demo-select-small'
+              id='demo-select-small'
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
               style={{
                 marginRight: 15,
                 width: 100,
-                height: 40,
+                height: 35,
               }}
+              className={classes.btn}
             >
               <MenuItem value='USD'>USD</MenuItem>
               <MenuItem value='INR'>NPR</MenuItem>
             </Select>
+
+            <LoginModal />
           </Toolbar>
         </Container>
       </AppBar>
