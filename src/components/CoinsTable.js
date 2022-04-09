@@ -69,6 +69,7 @@ const CoinsTable = () => {
       )
     })
   }
+  console.log('coins table rendered')
   return (
     <ThemeProvider theme={darkTheme}>
       <Container style={{ textAlign: 'center' }}>
